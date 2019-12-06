@@ -1,0 +1,50 @@
+<div class="modal-header">
+{#    <div class="icon-box">#}
+{#        <i class="fa fa-remove" style="font-size:48px;color:red"></i>#}
+{#    </div>#}
+    <h4 style="margin-left: 123px;
+    color: #eb5c5d;" class="modal-title">Are you sure?</h4>
+    <button style="font-size: 38px; color: #7b6f6f;
+    background: none;
+    border: none;
+    margin-top: -26px;" type="button" class="" data-dismiss="modal"
+            aria-hidden="true">&times</button>
+</div>
+<div class="modal-body">
+    <p>Do you really want to delete these records? This process cannot be undone.</p>
+</div>
+<div style="margin-right: 18px;" class="modal-footer">
+    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+    <button data_url="{% url 'delete_assign'  project.id %}" data_id="{{ project.id }}" type="button"
+            class="btn btn-danger remove">Delete
+    </button>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('.remove').click(function () {
+            var data_id = $(this).attr('data_id');
+            var data_url = $(this).attr('data_url');
+            console.log(data_id)
+
+            $.ajax({
+                url : data_url,
+                method: "DELETE",
+                success: function (data) {
+                    console.log(data)
+                    location.reload()
+
+
+                },
+
+                error: function (xhr, err, msg) {
+                    console.log(xhr, err, msg);
+                }
+            });
+
+
+        });
+    });
+</script>

@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% block page %}
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+
+        <!-- begin:: Content Head -->
+        <div class="kt-subheader   kt-grid__item" id="kt_subheader">
+            <div class="kt-container  kt-container--fluid ">
+                <div class="kt-subheader__main">
+                    <h3 class="kt-subheader__title">
+                        Persons
+                    </h3>
+                    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+                 </div>
+                <div class="kt-subheader__toolbar">
+                    <a href="#" class="">
+                    </a>
+                    <a href="{% url 'add_person' %}" class="btn btn-label-brand btn-bold">
+                        Add {{ name }} </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- end:: Content Head -->
+
+        <!-- begin:: Content -->
+        <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+
+            <!--begin::Portlet-->
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__body kt-portlet__body--fit">
+
+                    <!--begin: Datatable -->
+                    <div class="kt-datatable kt-datatable--default kt-datatable--brand kt-datatable--loaded"
+                         id="kt_apps_user_list_datatable" style="">
+                        <table class="kt-datatable__table" style="display: block;">
+                            <thead class="kt-datatable__head">
+                            <tr class="kt-datatable__row" style="left: 0px;">
+                                <th data-field="RecordID"
+                                    class="kt-datatable__cell--center kt-datatable__cell kt-datatable__cell--check">
+                                    <span style="width: 20px;">
+                                        <label class="kt-checkbox kt-checkbox--single kt-checkbox--all kt-checkbox--solid">
+                                            <input  name="all" id="all" type="checkbox">&nbsp;<span></span></label></span></th>
+                                <th data-field="Country"
+                                    class="kt-datatable__cell kt-datatable__cell--sort kt-datatable__cell--sorted"
+                                    data-sort="asc"><span style="width: 173px;">Full Name<i
+                                        class="flaticon2-arrow-up"></i></span></th>
+                                <th data-field="ShipDate" class="kt-datatable__cell kt-datatable__cell--sort"><span
+                                        style="width: 173px;">Customer</span></th>
+                                <th data-field="ShipDate" class="kt-datatable__cell kt-datatable__cell--sort"><span
+                                        style="width: 173px;">Projects Num</span></th>
+                                <th data-field="ShipDate" class="kt-datatable__cell kt-datatable__cell--sort"><span
+                                        style="width: 173px;">AZN Value
+
+                                <th data-field="Actions" data-autohide-disabled="false"
+                                    class="kt-datatable__cell kt-datatable__cell--sort"><span style="width: 80px;">Actions</span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody class="kt-datatable__body" style="">
+                            {% for field in company %}
+                                <tr data-row="0" class="kt-datatable__row" style="left: 0px;">
+                                    <td class="kt-datatable__cell--center kt-datatable__cell kt-datatable__cell--check"
+                                        data-field="RecordID"><span style="width: 20px;"><label
+                                            class="kt-checkbox kt-checkbox--single kt-checkbox--solid">
+                                        <input
+                                           name="check" type="checkbox" value="{{ field.id }}">&nbsp;<span></span></label></span></td>
+                                    <td class="kt-datatable__cell--sorted kt-datatable__cell" data-field="Country"><span
+                                            style="width: 173px;">{{ field.full_name }}</span></td>
+                                    <td class="kt-datatable__cell--sorted kt-datatable__cell" data-field="Country"><span
+                                            style="width: 173px;">{{ field.customer }}</span></td>
+                                    <td data-field="ShipDate" class="kt-datatable__cell"><span
+                                            style="width: 173px;">{{ field.projects_num }}</span>
+                                    </td>
+                                    <td data-field="ShipDate" class="kt-datatable__cell"><span
+                                            style="width: 173px;">{{ field.azn_value }}</span>
+                                    </td>
+                                    <td data-field="Actions" data-autohide-disabled="false"
+                                        class="kt-datatable__cell">
+                                        <span style="overflow: visible; position: relative; width: 80px;">
+                                            <div class="dropdown">
+                                                <a data-toggle="dropdown"
+                                                   class="btn btn-sm btn-clean btn-icon btn-icon-md">
+                                                    <i class="flaticon-more-1"></i></a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <ul class="kt-nav">
+                                                        <li class="kt-nav__item">
+                                                            <a class="kt-nav__link" href="#">
+                                                                <i class="kt-nav__link-icon flaticon2-contract"></i>
+                                                                <span class="kt-nav__link-text">Edit</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="kt-nav__item">
+                                                            <a class="kt-nav__link delete" data-toggle="modal" data-target="#deleteModal"
+                                                            data_url="{% url 'person_delete' field.id %}">
+                                                                <i class="kt-nav__link-icon flaticon2-trash"></i>
+                                                                <span class="kt-nav__link-text">Delete</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="kt-datatable__pager kt-datatable--paging-loaded">
+                            <ul class="kt-datatable__pager-nav">
+                                {% if not company.has_previous %}
+                                    <li><a title="First"
+                                           class="kt-datatable__pager-link kt-datatable__pager-link--first kt-datatable__pager-link--disabled"
+                                           data-page="1" disabled="disabled"><i class="flaticon2-fast-back"></i></a>
+                                    </li>
+                                    <li><a title="Previous"
+                                           class="kt-datatable__pager-link kt-datatable__pager-link--prev kt-datatable__pager-link--disabled"
+                                           data-page="1" disabled="disabled"><i class="flaticon2-back"></i></a></li>
+                                {% else %}
+                                    <li><a title="First"
+                                           class="kt-datatable__pager-link kt-datatable__pager-link--first"
+                                           data-page="1" disabled="disabled"><i class="flaticon2-fast-back"></i></a>
+                                    </li>
+                                    <li><a title="Previous"
+                                           class="kt-datatable__pager-link kt-datatable__pager-link--prev "
+                                           data-page="1" disabled="disabled"><i class="flaticon2-back"></i></a></li>
+                                {% endif %}
+
+                                <li style=""></li>
+                                <li style="display: none;"><input type="text" class="kt-pager-input form-control"
+                                                                  title="Page number"></li>
+
+                                {% for page in page_range %}
+                                    {% if page == company.number %}
+                                        <li>
+                                            <a href="?page={{ page }}"
+                                               class="kt-datatable__pager-link kt-datatable__pager-link-number kt-datatable__pager-link--active"
+                                               data-page="1" title="1">{{ page }}</a></li>
+                                    {% else %}
+                                        <li>
+                                            <a href="?page={{ page }}"
+                                               class="kt-datatable__pager-link kt-datatable__pager-link-number "
+                                               data-page="1" title="1">{{ page }}</a></li>
+
+                                    {% endif %}
+
+                                {% endfor %}
+                                {% if company.has_next %}
+                                    <li><a title="Next" class="kt-datatable__pager-link kt-datatable__pager-link--next"
+                                           data-page="2"><i class="flaticon2-next"></i></a></li>
+                                    <li><a title="Last" class="kt-datatable__pager-link kt-datatable__pager-link--last"
+                                           data-page="4"><i class="flaticon2-fast-next"></i></a></li>
+                                {% else %}
+                                    <li><a style="color: #93a2dd;
+    background: #f0f3ff;opacity: 0.3;" title="Next" class="kt-datatable__pager-link"
+                                           data-page="2"><i class="flaticon2-next"></i></a></li>
+                                    <li><a style="color: #93a2dd;
+    background: #f0f3ff;opacity: 0.3;" title="Last" class="kt-datatable__pager-link kt-datatable__pager-link--last"
+                                           data-page="4"><i class="flaticon2-fast-next"></i></a></li>
+
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!--end: Datatable -->
+                </div>
+            </div>
+
+            <!--end::Portlet-->
+
+            <!--begin::Modal-->
+            <div class="modal fade" id="kt_datatable_records_fetch_modal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Selected Records</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="kt-scroll" data-scroll="true" data-height="200">
+                                <ul id="kt_apps_user_fetch_records_selected"></ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-brand" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--end::Modal-->
+        </div>
+
+        <!-- end:: Content -->
+    </div>
+{% endblock %}

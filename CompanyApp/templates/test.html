@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block page %}
+<form method="post" >
+ {% csrf_token %}
+    {% for field in form %}
+        {% render_field field class='form-control' %}
+    {% endfor %}
+<button type="submit">sdfg</button>
+</form>
+
+
+{% endblock %}
